@@ -45,9 +45,9 @@ initApp = function() {
         });
       } else {
         // User is signed out.
-        document.getElementById("sign-in-status").textContent = "Signed out";
-        document.getElementById("sign-in").textContent = "Sign in";
-        document.getElementById("account-details").textContent = "null";
+        // document.getElementById("sign-in-status").textContent = "Signed out";
+        // document.getElementById("sign-in").textContent = "Sign in";
+        // document.getElementById("account-details").textContent = "null";
         // FirebaseUI config.
         const uiConfig = {
           signInSuccessUrl: "<url-to-redirect-to-on-success>",
