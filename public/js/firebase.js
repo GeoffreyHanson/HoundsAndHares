@@ -1,5 +1,5 @@
-const firebase = require("firebase");
-const firebaseui = require("firebaseui");
+// const firebase = require("firebase");
+// const firebaseui = require("firebaseui");
 
 const config = {
   apiKey: "AIzaSyBEgVFhRfuKzyoJNWuTU86h7ft6jeJwsaw",
