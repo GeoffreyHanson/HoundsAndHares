@@ -1,3 +1,8 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+/* Make a div for the game, then... */
+/* #gamediv {
+  background-image: url(https://cdn.pixabay.com/photo/2017/01/01/10/30/concrete-1944281_960_720.jpg);
+} */
