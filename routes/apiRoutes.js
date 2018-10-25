@@ -1,35 +1,46 @@
 const db = require("../models");
 
 module.exports = app => {
-  // Get starting positions for white pieces, however this should route.
-  app.get("/api/starting", (req, res) => {
-    db.White.findAll({}).then(startLocation => {
-      // However we want to format the site such that this will assign a value
-      // updating the location. This is using the burger app example format.
-      const hbsObject = {
-        location: startLocation
-      };
-      return res.render("index", hbsObject);
-    });
+  app.get("/", (req, res) => {
+    res.redirect("/starting");
   });
 
-  // Starting location for black pieces
+  // app.get("/api/starting", (req, res) => {
+  //   db.piece.findAll({}).then(startSpace => {
+  //     // However we want to format the site such that this will assign a value
+  //     // updating the location. This is using the burger app example format.
+  //     const hbsObject = {
+  //       space: startSpace
+  //     };
+  //     return res.render("index", hbsObject);
+  //   });
+  // });
+
+  // Starting location for pieces
   app.get("/api/starting", (req, res) => {
-    db.Black.findAll({}).then(startLocation => {
-      const hbsObject = {
-        location: startLocation
-      };
-      return res.render("index", hbsObject);
+    db.Piece.findAll({}).then(pieces => {
+      res.json(pieces);
+      // console.log(pieces);
     });
   });
 
   // Updating the locations of pieces
   app.put("/api/current", (req, res) => {
-    db.White.findAll({}).then(newLocation => {});
+    db.Piece.update(
+      {
+        spot: req.body.spot
+      },
+      {
+        where: {
+          id: req.body.id
+        }
+      }
+    ).then(piece => {
+      res.json(piece);
+    });
   });
 
-  // Create a new example
-  // Probably won't need this?
+  // Better to use this or seeds in models?
   // app.post("/api/example", (req, res) => {
   //   db.Example.create(req.body).then(dbExample => {
   //     res.json(dbExample);
