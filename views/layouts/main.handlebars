@@ -6,6 +6,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
     <script src="/js/firebase.js"></script>
+    <script src="/js/modal.js"></script>
     {{!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"> --}}
     <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title" charset="utf-8">
   </head>
@@ -28,22 +29,6 @@
 
 <button id="open-button" class="open-button">Open Button</button>
 
-<script>
-var modal = document.querySelector("#modal");
-var modalOverlay = document.querySelector("#modal-overlay");
-var closeButton = document.querySelector("#close-button");
-var openButton = document.querySelector("#open-button");
-
-closeButton.addEventListener("click", function() {
-  modal.classList.toggle("closed");
-  modalOverlay.classList.toggle("closed");
-});
-
-openButton.addEventListener("click", function() {
-  modal.classList.toggle("closed");
-  modalOverlay.classList.toggle("closed");
-});
-</script>
   </body>
 </html>
 
