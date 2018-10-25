@@ -95,6 +95,31 @@ h1 {
   font-size: 1.3rem;
 }
 
+.height-100vh {
+  height: 100vh;
+  
+  display: flex;            /* establish flex container */
+  flex-direction: column;   /* stack flex items vertically */
+  position: relative;       /* establish neares positioned ancenstor for absolute positioning */
+  
+}
+
+.text {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-weight: bold;
+}
+
+.center-aligned {
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+}
+
 .button {
   margin-left: 42%;
   font-size: 20px;
