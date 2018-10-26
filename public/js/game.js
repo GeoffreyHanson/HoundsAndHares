@@ -59,11 +59,6 @@ let firstClick = false;
 // by the logic after the first click
 let legalMoves = [];
 
-const $exampleText = $("#example-text");
-const $exampleDescription = $("#example-description");
-const $submitBtn = $("#submit");
-const $exampleList = $("#example-list");
-
 black => {
     const nodeClicked = $(this).id;
     if (firstClick === false) {
