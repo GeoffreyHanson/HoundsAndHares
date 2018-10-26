@@ -121,6 +121,10 @@ h1 {
   @include justify-content(center);
 }
 
+.active {
+  opacity: ".7";
+}
+
 .button {
   position: absolute;
   top: 65%;
