@@ -10,5 +10,8 @@ module.exports = {
     mocha: true,
     commonjs: true,
     es6: true
+  },
+  rules: {
+    "linebreak-style": 0
   }
 };
