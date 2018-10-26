@@ -19,7 +19,7 @@ module.exports = app => {
   // Starting location for pieces
   app.get("/api/starting", (req, res) => {
     db.Piece.findAll({}).then(pieces => {
-      res.json(pieces);
+      res.render(pieces);
       // console.log(pieces);
     });
   });
