@@ -25,20 +25,20 @@ module.exports = app => {
   });
 
   // Updating the locations of pieces
-  app.put("/api/current", (req, res) => {
-    db.Piece.update(
-      {
-        spot: req.body.spot
-      },
-      {
-        where: {
-          id: req.body.id
-        }
-      }
-    ).then(piece => {
-      res.json(piece);
-    });
-  });
+  // app.put("/api/piece/:id", (req, res) => {
+  //   db.Piece.update(
+  //     {
+  //       spot: req.body.spot
+  //     },
+  //     {
+  //       where: {
+  //         id: req.params.id
+  //       }
+  //     }
+  //   ).then(piece => {
+  //     res.json(piece);
+  //   });
+  // });
 
   // Better to use this or seeds in models?
   // app.post("/api/example", (req, res) => {
