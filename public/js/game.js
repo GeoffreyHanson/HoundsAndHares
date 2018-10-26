@@ -104,6 +104,10 @@ $(document).ready(() => {
           default:
             break;
         }
+        blackMoves.startlocation.forEach(value => {
+          $(`#${value}`).addClass("active");
+        });
+
         for (i = 0; i < blackMoves.startLocation.length; i++) {
           $(`#${blackMoves.startLocation[i]}`).addClass("active"); // highlight the possible destinations
         }
