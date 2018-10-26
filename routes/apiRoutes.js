@@ -17,7 +17,7 @@ module.exports = app => {
   // });
 
   // Starting location for pieces
-  app.get("/api/starting", (req, res) => {
+  app.get("/api/game:id", (req, res) => {
     db.Piece.findAll({}).then(pieces => {
       res.render(pieces);
       // console.log(pieces);
