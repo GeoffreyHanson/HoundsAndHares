@@ -43,6 +43,17 @@ $("#3").on("click", function() {
   })
 });
 
+$("#4").on("click", function() {
+  
+  $(".node").on("click", function() {
+    
+    var newX = $(this).attr("cx");
+    var newY = $(this).attr("cy");
+
+    $("#4").attr({cx: newX, cy: newY});
+  })
+});
+
 </script>
 
 
