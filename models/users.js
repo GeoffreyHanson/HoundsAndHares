@@ -3,4 +3,5 @@ module.exports = (sequelize, DataTypes) => {
     games: DataTypes.STRING,
     firebaseId: DataTypes.STRING
   });
+  return User;
 };

@@ -1,15 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
   const Game = sequelize.define("Game", {
-    player1: DataTypes.STRING, // UserIds go here
-    player2: DataTypes.STRING, // and here
-    ongoing: DataTypes.BOOLEAN,
-    full: DataTypes.BOOLEAN
+    whoseTurn: DataTypes.STRING,
+    houndPlayer: DataTypes.STRING, // UserIds go here
+    harePlayer: DataTypes.STRING, // and here
+    houndOne: {
+      type: DataTypes.STRING,
+      defaultValue: "t2"
+    },
+    houndTwo: {
+      type: DataTypes.STRING,
+      defaultValue: "m1"
+    },
+    houndThree: {
+      type: DataTypes.STRING,
+      defaultValue: "b2"
+    },
+    hare: {
+      type: DataTypes.STRING,
+      defaultValue: "m3"
+    },
+    lateralMoves: DataTypes.INTEGER
   });
-
-  Game.associate = models => {
-    Game.hasMany(models.Move, {
-      onDelete: "cascade"
-    });
-  };
   return Game;
 };
