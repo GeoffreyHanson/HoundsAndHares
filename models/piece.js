@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     startSpace: DataTypes.STRING
   });
 
-  // Seeds for starting places
-
+  // Seeds for starting places.
+  // Should probably do this on the front end.
   Piece.sync().then(() => {
     Piece.create({
       pieceName: "houndOne",
