@@ -50,7 +50,7 @@ initApp = function() {
         document.getElementById("account-details").textContent = "null";
         // FirebaseUI config.
         const uiConfig = {
-          signInSuccessUrl: "index.html",
+          signInSuccessUrl: "game.html",
           signInOptions: [
             // Leave the lines as is for the providers you want to offer your users.
             // firebase.auth.GoogleAuthProvider.PROVIDER_ID,

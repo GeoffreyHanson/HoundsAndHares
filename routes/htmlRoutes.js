@@ -1,14 +1,9 @@
-const db = require("../models");
+const path = require("path");
 
 module.exports = app => {
   // Load index page
   app.get("/", (req, res) => {
-    db.Example.findAll({}).then(dbExamples => {
-      res.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
-    });
+    res.sendFile(path.join(__dirname, "../public/test.html"));
   });
 
   // app.get("/", (req, res) => {
@@ -16,13 +11,9 @@ module.exports = app => {
   // });
 
   // Load example page and pass in an example by id
-  app.get("/example/:id", (req, res) => {
-    db.Example.findOne({ where: { id: req.params.id } }).then(dbExample => {
-      res.render("example", {
-        example: dbExample
-      });
-    });
-  });
+  // app.get("/game", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "../public/index.html"));
+  // });
 
   // Render 404 page for any unmatched routes
   app.get("*", (req, res) => {

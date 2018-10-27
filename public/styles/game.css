@@ -1,0 +1,155 @@
+@import 'https://fonts.googleapis.com/css?family=Cinzel:400,700';
+
+.list-group-item {
+  line-height: 2.5;
+}
+
+.modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+  
+  /* Probably need media queries here */
+  width: 600px;
+  max-width: 100%;
+  
+  height: 400px;
+  max-height: 100%;
+  
+  position: fixed;
+  
+  z-index: 100;
+  
+  left: 50%;
+  top: 50%;
+  
+  /* Use this for centering if unknown width/height */
+  transform: translate(-50%, -50%);
+  
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+  
+  background: white;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+}
+.closed {
+  display: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  
+  background: rgba(0, 0, 0, 0.6);
+}
+.modal-guts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px 50px 20px 20px;
+}
+
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-image: url('https://freedomguidedogs.org/wp-content/uploads/2017/09/grey-dark-vintage-background-texture.jpg');
+  background-size: 100%, 100%;
+  background-color: black;
+  font-family: 'Cinzel', serif;
+}
+ul {
+  margin: 10px 0 10px 30px;
+}
+li, p {
+  margin: 0 0 10px 0;
+}
+h1 {
+  margin: 0 0 20px 0;
+}
+
+.modal .close-button {
+  position: absolute;
+  
+  /* don't need to go crazy with z-index here, just sits over .modal-guts */
+  z-index: 1;
+  
+  top: 10px;
+  
+  /* needs to look OK with or without scrollbar */
+  right: 20px;
+  
+  border: 0;
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1.3rem;
+}
+
+.height-100vh {
+  height: 100vh;
+  
+  display: flex;            /* establish flex container */
+  flex-direction: column;   /* stack flex items vertically */
+  position: relative;       /* establish neares positioned ancenstor for absolute positioning */
+  
+}
+
+.text {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  font-weight: bold;
+}
+
+.center-aligned {
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+}
+
+.active {
+  opacity: ".7";
+}
+
+.button {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: white;
+  background-color: #B5C7E6;
+  padding-left: 90px;
+  padding-right: 90px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* New code!! */
+svg {
+  position: absolute;
+  z-index: 4;
+  height: 100%;
+  left: 15%;
+}
+/* Make a div for the game, then... */
+/* #gamediv {
+  background-image: url(https://cdn.pixabay.com/photo/2017/01/01/10/30/concrete-1944281_960_720.jpg);
+} */

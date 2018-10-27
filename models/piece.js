@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Piece = sequelize.define("Piece", {
     pieceName: DataTypes.STRING,
-    space: DataTypes.STRING,
-    startSpace: DataTypes.STRING
+    cx: DataTypes.STRING,
+    cy: DataTypes.STRING
   });
 
   // Seeds for starting places.
@@ -10,23 +10,23 @@ module.exports = (sequelize, DataTypes) => {
   Piece.sync().then(() => {
     Piece.create({
       pieceName: "houndOne",
-      space: "",
-      startSpace: "t2"
+      cx: "250",
+      cy: "50"
     });
     Piece.create({
       pieceName: "houndTwo",
-      space: "",
-      startSpace: "m1"
+      cx: "100",
+      cy: "200"
     });
     Piece.create({
       pieceName: "houndThree",
-      space: "",
-      startSpace: "b2"
+      cx: "250",
+      cy: "350"
     });
     Piece.create({
       pieceName: "hare",
-      space: "",
-      startSpace: "m3"
+      cx: "400",
+      cy: "200"
     });
   });
   return Piece;

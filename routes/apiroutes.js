@@ -1,9 +1,9 @@
 const db = require("../models");
 
 module.exports = app => {
-  app.get("/", (req, res) => {
-    res.redirect("/api/gamestart");
-  });
+  // app.get("/", (req, res) => {
+  //   res.redirect("/api/gamestart");
+  // });
 
   app.get("/api/gameStart", (req, res) => {
     db.Piece.findAll({}).then(dbPiece => {
@@ -11,14 +11,31 @@ module.exports = app => {
     });
   });
 
+  // app.put("/api/pieces", (req, res) => {
+  //   db.Piece.update(
+  //     {
+  //       cx: req.body.cx,
+  //       cy: req.body.cy
+  //     },
+  //     {
+  //       where: {
+  //         id: req.pieces.id
+  //       }
+  //     }
+  //   ).then(dbPiece => {
+  //     res.json(dbPiece);
+  //   });
+  // });
+
   app.put("/api/piece/:id", (req, res) => {
     db.Piece.update(
       {
-        spot: req.body.spot
+        cy: req.body.cy,
+        cx: req.body.cx
       },
       {
         where: {
-          id: req.body.id
+          id: req.params.id
         }
       }
     ).then(dbPiece => {

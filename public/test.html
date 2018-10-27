@@ -1,10 +1,9 @@
-{{!-- <div class="height-100vh">
-
-  {{> board}}
-
-
-</div> --}}
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>FMGO</title> 
+    <link rel="stylesheet" href="styles/game.css">  
 
 <div style='position:absolute;z-index:0;left:0;top:0;width:100%;height:100%'>
         <img src='https://freedomguidedogs.org/wp-content/uploads/2017/09/grey-dark-vintage-background-texture.jpg' style='width:100%;height:100%' alt='[]' />
@@ -52,14 +51,130 @@
     <circle class="node" id="b3" cx="400" cy="350" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
     <circle class="node" id="b4" cx="550" cy="350" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
   
-    <circle class="blackpiece" id="1" cx="250" cy="50" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
-    <circle class="blackpiece" id="2" cx="100" cy="200" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
-    <circle class="blackpiece" id="3" cx="250" cy="350" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
-    <circle class="whitepiece" id="4" cx="400" cy="200" r="28" stroke="black" stroke-width="3" fill="#66FCF1" opacity="1"/>
+    <circle class="piece" id="1" cx="250" cy="50" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1" space="t2"/>
+    <circle class="piece" id="2" cx="100" cy="200" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
+    <circle class="piece" id="3" cx="250" cy="350" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
+    <circle class="piece" id="4" cx="400" cy="200" r="28" stroke="black" stroke-width="3" fill="#66FCF1" opacity="1"/>
 </svg>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>
+<script>
+    // $(document).on("click", ".blackpiece", func)
+    // var pieces = [];    
+    // console.log(pieces);
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{{!-- <script src="/js/game.js"></script> --}}
+    function getPieces() {
+        $.get("/api/gameStart", function(data) {
+            console.log(data);
+            var pieces = [];
+            for (var i = 0; i < data.length; i++) {                
+                console.log(data[i].id);
+                id = data[i].id;
+
+                console.log(data[i].cx);
+                currcx = data[i].cx;
+
+                console.log(data[i].cy);
+                currcy = data[i].cy;
+                
+                $("#"+id).attr({cx: currcx, cy: currcy});
+            }
+        });
+    }
+    getPieces();
+
+    
+    
+        
+    // $(document).on("click", ".node", movePieceOne);
+    // function movePieceOne(event) {
+    //     event.stopPropagation();
+    //     var newX = $(this).attr("cx"); 
+    //     var newY = $(this).attr("cy"); 
+    //     console.log(newX, newY); 
+    //     $("#1").attr({cx: newX, cy: newY});       
+    // }
+
+
+$("#1").on("click", function(event) {
+    event.stopPropagation();
+    
+  $(".node").on("click", function(event) {
+    let newX = $(this).attr("cx");
+    let newY = $(this).attr("cy");
+    $("#1").attr({cx: newX, cy: newY});
+
+  });
+});
+
+$("#2").on("click", function(event) {
+    event.stopPropagation();
+    var id = $(this).attr("id");
+    $(".node").on("click", function() {
+        
+        let newX = $(this).attr("cx");
+        let newY = $(this).attr("cy");
+        $("#2").attr({cx: newX, cy: newY});
+        
+        console.log(newX, newY);
+        console.log(id);
+        $.ajax({
+            method: "PUT",
+            url: "/api/piece/" + id,
+            data: {
+                cy: newY,
+                cx: newX 
+            }
+        }).then(getPieces);
+  });
+});
+
+$("#3").on("click", function() {
+    event.stopPropagation();
+    var id = $(this).attr("id");
+  $(".node").on("click", function() {
+    
+    let newX = $(this).attr("cx");
+    let newY = $(this).attr("cy");
+
+    $("#3").attr({cx: newX, cy: newY});
+    $.ajax({
+        method: "PUT",
+        url: "/api/piece/" + id,
+        data: {
+            cy: newY,
+            cx: newX 
+        }
+    }).then(getPieces);
+  });
+});
+
+// New code!!
+$("#4").on("click", function() {
+    event.stopPropagation();
+    var id = $(this).attr("id");
+  $(".node").on("click", function() {
+    
+    let newX = $(this).attr("cx");
+    let newY = $(this).attr("cy");
+
+    $("#4").attr({cx: newX, cy: newY});
+    $.ajax({
+        method: "PUT",
+        url: "/api/piece/" + id,
+        data: {
+            cy: newY,
+            cx: newX 
+        }
+    }).then(getPieces);
+  });
+});
+
+// getPieces();
+
+</script>
+
+</body>
+
+</html>
