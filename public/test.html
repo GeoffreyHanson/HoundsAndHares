@@ -99,12 +99,19 @@
 
 $("#1").on("click", function(event) {
     event.stopPropagation();
-    
+    var id = $(this).attr("id");
   $(".node").on("click", function(event) {
     let newX = $(this).attr("cx");
     let newY = $(this).attr("cy");
     $("#1").attr({cx: newX, cy: newY});
-
+    $.ajax({
+            method: "PUT",
+            url: "/api/piece/" + id,
+            data: {
+                cy: newY,
+                cx: newX 
+            }
+        }).then(getPieces);
   });
 });
 
