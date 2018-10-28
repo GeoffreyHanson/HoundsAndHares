@@ -11,6 +11,10 @@ module.exports = app => {
     });
   });
 
+  // app.get("/", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "../public/in`"));
+  // });
+
   // Load example page and pass in an example by id
   app.get("/example/:id", (req, res) => {
     db.Example.findOne({ where: { id: req.params.id } }).then(dbExample => {
