@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        @import 'https://fonts.googleapis.com/css?family=Cinzel:400,700';
+
+        .list-group-item {
+          line-height: 2.5;
+        }
+        
+        .modal {
+          /* This way it could be display flex or grid or whatever also. */
+          display: block;
+          
+          /* Probably need media queries here */
+          width: 600px;
+          max-width: 100%;
+          
+          height: 400px;
+          max-height: 100%;
+          
+          position: fixed;
+          
+          z-index: 100;
+          
+          left: 50%;
+          top: 50%;
+          
+          /* Use this for centering if unknown width/height */
+          transform: translate(-50%, -50%);
+          
+          /* If known, negative margins are probably better (less chance of blurry text). */
+          /* margin: -200px 0 0 -200px; */
+          
+          background: white;
+          box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+        }
+        .closed {
+          display: none;
+        }
+        
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 50;
+          
+          background: rgba(0, 0, 0, 0.6);
+        }
+        .modal-guts {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          padding: 20px 50px 20px 20px;
+        }
+        
+        
+        
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          background-image: url('https://freedomguidedogs.org/wp-content/uploads/2017/09/grey-dark-vintage-background-texture.jpg');
+          background-size: 100%, 100%;
+          background-color: black;
+          font-family: 'Cinzel', serif;
+        }
+        ul {
+          margin: 10px 0 10px 30px;
+        }
+        li, p {
+          margin: 0 0 10px 0;
+        }
+        h1 {
+          margin: 0 0 20px 0;
+        }
+        
+        .modal .close-button {
+          position: absolute;
+          
+          /* don't need to go crazy with z-index here, just sits over .modal-guts */
+          z-index: 1;
+          
+          top: 10px;
+          
+          /* needs to look OK with or without scrollbar */
+          right: 20px;
+          
+          border: 0;
+          background: black;
+          color: white;
+          padding: 5px 10px;
+          font-size: 1.3rem;
+        }
+        
+        .height-100vh {
+          height: 100vh;
+          
+          display: flex;            /* establish flex container */
+          flex-direction: column;   /* stack flex items vertically */
+          position: relative;       /* establish neares positioned ancenstor for absolute positioning */
+          
+        }
+        
+        .text {
+          display: flex;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          color: black;
+          font-weight: bold;
+        }
+        
+        .center-aligned {
+          @include display(flex);
+          @include align-items(center);
+          @include justify-content(center);
+        }
+        
+        .active {
+          opacity: 0.7;
+        }
+        
+        .button {
+          position: absolute;
+          top: 65%;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 20px;
+          color: white;
+          background-color: #B5C7E6;
+          padding-left: 90px;
+          padding-right: 90px;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          overflow: hidden;
+          white-space: nowrap;
+          z-index: 3;
+        }
+        svg {
+          position: absolute;
+          z-index: 4;
+          height: 100%;
+          /* left: 15%; */
+          left: 50%;
+           transform: translateX(-60%);
+        }
+        /* Make a div for the game, then... */
+        /* #gamediv {
+          background-image: url(https://cdn.pixabay.com/photo/2017/01/01/10/30/concrete-1944281_960_720.jpg);
+        } */
+        
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+  <!-- Ugonna's formatting pasted in!! -->
+
+  <div style='position:absolute;z-index:0;left:0;top:0;width:100%;height:100%'>
+      <img src='https://freedomguidedogs.org/wp-content/uploads/2017/09/grey-dark-vintage-background-texture.jpg' style='width:100%;height:100%' alt='[]' />
+  </div>
+
+<!-- New Code!! -->
+<div style='position:absolute;z-index:0;left:12%;top:15%;width:100%;height:100%'>
+      <img src='https://www.noupe.com/wp-content/uploads/2012/06/ultimatetexturecollection20.jpg' style='width:70%;height:70%' alt='[]' />
+  </div>
+
+
+
+<!--  New code!! -->
+  <div style='position:absolute;z-index:1;left:17%;top:20%;width:100%;height:100%'>
+          <img src='https://i1.wp.com/www.bmcrumc.org/wp-content/uploads/2017/07/white-background-2.jpg' style='width:60%;height:60%' alt='[]' />
+  </div>
+ 
+
+  <!-- End Paste -->
+
+        <svg viewBox="0 0 800 400" width="800" height="400">
+                <circle cx="250" cy="200" r="195" fill="#0B0C10" opacity="1"/>
+                  <circle cx="550" cy="200" r="195" fill="#0B0C10" opacity="1"/>
+                  <rect width="300" height="390" x="250" y="5" fill="#0B0C10"/>
+              <svg x=0 background="red">
+                <polygon points="250,50 100,200 250,350" stroke-width=3 stroke="#C5C6C7" fill="#1F2833"/>
+                <rect width="300" height="300" x="250" y="50" stroke-width=3 stroke="#C5C6C7" fill="#1F2833"/>
+                <line x1="250" y1="50" x2="550" y2="350" stroke-width=3 stroke="#C5C6C7"/>
+                <line x1="550" y1="50" x2="250" y2="350" stroke-width=3 stroke="#C5C6C7"/>
+                <line x1="400" y1="50" x2="400" y2="350" stroke-width=3 stroke="#C5C6C7"/>
+                <line x1="250" y1="200" x2="550" y2="200" stroke="black"/>
+                <polygon points="550,50 700,200 550,350" stroke-width=3 stroke="#C5C6C7" fill="#1F2833" />
+                <line x1="100" y1="200" x2="700" y2="200" stroke-width=3 stroke="#C5C6C7"/>
+                  <circle class="node" id="t2" cx="250" cy="50" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="t3" cx="400" cy="50" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="t4" cx="550" cy="50" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="m1" cx="100" cy="200" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="m2" cx="250" cy="200" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="m3" cx="400" cy="200" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="m4" cx="550" cy="200" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="m5" cx="700" cy="200" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="b2" cx="250" cy="350" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="b3" cx="400" cy="350" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                  <circle class="node" id="b4" cx="550" cy="350" r="20" stroke="black" stroke-width="1" fill="red" opacity="0"/>
+                    <circle class="blackpiece" id="black1" cx="250" cy="50" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
+                    <circle class="blackpiece" id="black2" cx="100" cy="200" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
+                    <circle class="blackpiece" id="black3" cx="250" cy="350" r="25" stroke="black" stroke-width="3" fill="#45A29E" opacity="1"/>
+                    <circle class="whitepiece" id="white" cx="400" cy="200" r="28" stroke="black" stroke-width="3" fill="#66FCF1" opacity="1"/>
+              </svg>
+              </svg>
+              <div id="result" style='left: 50%;z-index:5;transform: translateX(-50%);'><h1>White Wins!</h1></div> 
+              <script
+              src="https://code.jquery.com/jquery-3.3.1.js"
+              integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+              crossorigin="anonymous"></script>             
+<script>
+$(document).ready(() => {
+  // a variable containing the ids of each game location
+  const gameLocations = [
+    "t2",
+    "t3",
+    "t4",
+    "m1",
+    "m2",
+    "m3",
+    "m4",
+    "m5",
+    "b2",
+    "b3",
+    "b4"
+  ];
+
+  // an object listing all of the legal moves from
+  //   a given game location for black (provided
+  //   the target location is empty)
+  const blackMoves = {
+    t2: ["m2", "m3", "t3"],
+    t3: ["m3", "t4"],
+    t4: ["m4", "m5"],
+    m1: ["t2", "m2", "b2"],
+    m2: ["t2", "m3", "b2"],
+    m3: ["t3", "t4", "m4", "b4", "b3"],
+    m4: ["t4", "m5", "b4"],
+    m5: [],
+    b2: ["m2", "m3", "b3"],
+    b3: ["m3", "b4"],
+    b4: ["m4", "m5"]
+  };
+
+  // an object listing all of the legal moves from
+  //   a given game location for white (provided
+  //   the target location is empty)
+  const whiteMoves = {
+    t2: ["m1", "m2", "m3", "t3"],
+    t3: ["t2", "m3", "t4"],
+    t4: ["t3", "m3", "m4", "m5"],
+    m1: [],
+    m2: ["m1", "t2", "m3", "b2"],
+    m3: ["t2", "m2", "b2", "t3", "t4", "m4", "b4", "b3"],
+    m4: ["m3", "t4", "m5", "b4"],
+    m5: ["t4", "m4", "b4"],
+    b2: ["m1", "m2", "m3", "b3"],
+    b3: ["b2", "m3", "b4"],
+    b4: ["b3", "m3", "m4", "m5"]
+  };
+
+  // LIST OF VARIABLES NEEDED FROM OUR DATABASE
+  //
+  // gameId : ID of the current game in the db
+  //
+  // whoseTurn ("white" or "black")
+  //
+  // black1Location
+  // black2Location
+  // black3Location
+  // whiteLocation : these four give the ids of the nodes where each piece is
+  //
+  // blackPlayer: ID of the black player from the db
+  // whitePlayer: ID of the white player from the db
+  //
+  // lateralMoves : number of consecutive non-advancing black moves leading to current game state
+  //
+  // gameActive : boolean, true or false, is the game still going
+
+  // This variable contains the id of the piece the player wll move
+  let selectedPiece = [];
+  // This variable keeps track of whose turn it is
+  let whoseTurn = "black";
+
+  let black1Location = "t2";
+  let black2Location = "m1";
+  let black3Location = "b2";
+  let whiteLocation = "m3";
+  let startLocation = [];
+  let lateralMoves = [];
+
+  $(".blackpiece").on(
+    "click", function() {
+        let element = $(this);
+      if (
+        whoseTurn === "black"
+        // && blackPlayer === displayName // displayName is from firebase authentication
+      ) {
+        // if (selectedPiece === ("black1" || "black2" || "black3")) {
+        //   selectedPiece = [];
+        //   $(".node").removeClass("active");
+        //   return;
+        // }
+        startLocation = [];
+        // alert(this.id);
+        selectedPiece = this.id;
+        switch (selectedPiece) {
+          case "black1":
+            startLocation = black1Location;
+            break;
+          case "black2":
+            startLocation = black2Location;
+            break;
+          case "black3":
+            startLocation = black3Location;
+            break;
+          default:
+            break;
+        }
+            // alert("black1: " + black1Location + "black2: " + black2Location + " black3: " + black3Location);
+        // alert(blackMoves[startLocation]);
+        blackMoves[startLocation].forEach(value => {
+          $(`#${value}`).addClass("active");
+        });
+        // active();
+    $(".active").on(
+    "click", function() {
+        let element = $(this);
+        if (whoseTurn === "black") {
+        //     $(".active").on(
+    // "click", (() => {
+      // let blackSourceX = []
+      // switch (selectedPiece) {
+      //     case "black1":
+      //     blackSourceX = $("#black1").attr("cx");
+      //       break;
+      //     case "black2":
+      //     blackSourceX = $("#black2").attr("cx");
+      //       break;
+      //     case "black3":
+      //     blackSourceX = $("#black3").attr("cx");
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // // const blackSourceX = $(`#${selectedPiece}`).attr("cx");
+      // const blackTargetX = element.attr("cx");
+      // // alert(blackSourceX);
+      // // alert(blackTargetX);
+      // if (
+      //   selectedPiece === ("black1" || "black2" || "black3") &&
+      //   blackSourceX === blackTargetX
+      // ) {
+      //   lateralMoves++;
+        // send updated lateralMoves to db
+        // if (lateralMoves >= 10) {
+        //   alert("White Winds by Black stalling!");// ADD later: white wins, push to database, update "to move" div with the news
+        //   return;
+        // }
+    // }
+        // alert("call1" + $(`#${selectedPiece}`).attr("cx"));
+        // alert("call2" + element.attr("cx"));
+        // $(`#${selectedPiece}`).attr("cx", element.attr("cx"));
+        // $(`#${selectedPiece}`).attr("cy", element.attr("cy"));
+        // ADD later: push move to move list in the db
+        switch (selectedPiece) {
+          case "black1":
+          $("#black1").attr("cx", element.attr("cx"));
+          $("#black1").attr("cy", element.attr("cy"));
+          // alert("black1Location preassign " + black1Location);
+          // alert("element.id " + element.attr("id"));
+          black1Location = element.attr("id");
+          // alert("black1Location postassign " + black1Location);
+          break;
+          case "black2":
+          $("#black2").attr("cx", element.attr("cx"));
+          $("#black2").attr("cy", element.attr("cy"));
+          black2Location = element.attr("id");
+          break;
+          case "black3":
+          $("#black3").attr("cx", element.attr("cx"));
+          $("#black3").attr("cy", element.attr("cy"));
+          black3Location = element.attr("id");
+          default:
+          break;
+        }
+        selectedPiece = [];
+        $(".node").removeClass("active");
+        // if ($("#white").attr("cx") === $("#m1").attr("cx")) {
+        //   alert("White Wins!"); // ADD later: white wins, push to database, update "to move" div with the news
+        //   return;
+        // }
+        
+        if (
+          $("#white").attr("cx") === $("#m5").attr("cx") &&
+          $("#black1").attr("cx") === $("#m4").attr("cx") &&
+          $("#black2").attr("cx") === $("#m4").attr("cx") &&
+          $("#black3").attr("cx") === $("#m4").attr("cx")
+        ) {
+          alert("Black Wins!"); // ADD later: black wins, push to database, update "to move" div with the news
+          return;
+        }
+          whoseTurn = "white";
+          // ADD: Push new turn indicator to the db
+      }
+        })
+      }
+})
+
+  $(".whitepiece").on(
+    "click", function() {
+        let element = $(this);
+      if (
+        whoseTurn === "white"
+        // && whitePlayer === displayName // displayName is from firebase authentication
+      ) {
+        // if (selectedPiece === ("black1" || "black2" || "black3")) {
+        //   selectedPiece = [];
+        //   $(".node").removeClass("active");
+        //   return;
+        // }
+        selectedPiece = [];
+        startLocation = [];
+        selectedPiece = this.id;
+        startLocation = whiteLocation;
+        // switch (selectedPiece) {
+        //   case "black1":
+        //     startLocation = black1Location;
+        //     break;
+        //   case "black2":
+        //     startLocation = black2Location;
+        //     break;
+        //   case "black3":
+        //     startLocation = black3Location;
+        //     break;
+        //   default:
+        //     break;
+        // }
+        // if (startLocation === "t2") {
+        //     alert("good!");
+        // }
+        // alert(whiteMoves[startLocation]);
+        whiteMoves[startLocation].forEach(value => {
+          $(`#${value}`).addClass("active");
+        });
+        // active();
+    $(".active").on(
+    "click", function() {
+        let element = $(this);
+        //     $(".active").on(
+    // "click", (() => {
+    //   const whiteSourceX = $("#" + selectedPiece).attr("cx");
+    //   const whiteTargetX = element.attr("cx");
+    //   alert(whiteSourceX);
+    //   alert(whiteTargetX);
+    //   if (
+    //     selectedPiece === ("black1" || "black2" || "black3") &&
+    //     blackSourceX === blackTargetX
+    //   ) {
+    //     lateralMoves++;
+    //     // send updated lateralMoves to db
+    //     if (lateralMoves >= 10) {
+    //       // ADD later: white wins, push to database, update "to move" div with the news
+    //       return;
+    //     }
+    // }
+        // alert("call1" + $(`#${selectedPiece}`).attr("cx"));
+        // alert("call2" + element.attr("cx"));
+        if (whoseTurn === "white") {
+        $("#white").attr("cx", element.attr("cx"));
+        $("#white").attr("cy", element.attr("cy"));
+        
+        // ADD later: push move to move list in the db
+        whiteLocation = element.attr("id");
+        selectedPiece = [];
+        $(".node").removeClass("active");
+        // if ($("#white").attr("cx") === $("#m1").attr("cx")) {
+          if (whiteLocation === "m1") {
+          alert("White Wins!");// ADD later: white wins, push to database, update "to move" div with the news
+          return;
+        }
+        
+        // if (
+        //   $("#white").attr("cx") === $("#m5").attr("cx") &&
+        //   $("#black1").attr("cx") === $("#m4").attr("cx") &&
+        //   $("#black2").attr("cx") === $("#m4").attr("cx") &&
+        //   $("#black3").attr("cx") === $("#m4").attr("cx")
+        // ) {
+        //   alert("Black Wins!");
+        //   // ADD later: black wins, push to database, update "to move" div with the news
+        //   return;
+        // }
+          whoseTurn = "black";
+          // ADD: Push new turn indicator to the db
+      }
+      })
+    }
+})
+
+        // for (i = 0; i < blackMoves.startLocation.length; i++) {
+        //   $(`#${blackMoves.startLocation[i]}`).addClass("active"); // highlight the possible destinations
+        // }
+ 
+
+  // if (whoseTurn === "white") {
+  //   selectedPiece = "white";
+  //   startLocation = whiteLocation;
+
+  //   whiteMoves[startLocation].forEach(value => {
+  //   $(`#${value}`).addClass("active");
+    
+
+  //   // for (i = 0; i < whiteMoves.startLocation.length; i++) {
+  //   //   $(`#${whiteMoves.startLocation[i]}`).addClass("active"); // highlight the possible destinations
+  //   })
+  //   $(".active").on(
+  //   "click", function() {
+  //       let element = $(this);
+  //       //     $(".active").on(
+  //   // "click", (() => {
+  //     const blackSourceX = $("#" + selectedPiece).attr("cx");
+  //     const blackTargetX = element.attr("cx");
+  //     alert(blackSourceX);
+  //     alert(blackTargetX);
+  //     if (
+  //       selectedPiece === ("black1" || "black2" || "black3") &&
+  //       blackSourceX === blackTargetX
+  //     ) {
+  //       lateralMoves++;
+  //       // send updated lateralMoves to db
+  //       if (lateralMoves >= 10) {
+  //         // ADD later: white wins, push to database, update "to move" div with the news
+  //         return;
+  //       }
+  //   }
+  //       alert("call1" + $(`#${selectedPiece}`).attr("cx"));
+  //       alert("call2" + element.attr("cx"));
+  //       $(`#${selectedPiece}`).attr("cx", element.attr("cx"));
+  //       $(`#${selectedPiece}`).attr("cy", element.attr("cy"));
+  //       // ADD later: push move to move list in the db
+  //       selectedPiece = [];
+  //       $(".node").removeClass("active");
+  //       if ($("#white").attr("cx") === $("#m1").attr("cx")) {
+  //         // ADD later: white wins, push to database, update "to move" div with the news
+  //         return;
+  //       }
+        
+  //       if (
+  //         $("#white").attr("cx") === $("#m5").attr("cx") &&
+  //         $("#black1").attr("cx") === $("#m4").attr("cx") &&
+  //         $("#black2").attr("cx") === $("#m4").attr("cx") &&
+  //         $("#black3").attr("cx") === $("#m4").attr("cx")
+  //       ) {
+  //         // ADD later: black wins, push to database, update "to move" div with the news
+  //         return;
+  //       }
+  //       if (whoseTurn === "black") {
+  //         whoseTurn = "white";
+  //         // ADD: Push new turn indicator to the db
+  //         return;
+  //       } else if (whoseTurn === "white") {
+  //         whoseTurn = "black";
+  //         // ADD: Push new turn indicator to the db
+  //         return;
+  //       }
+  //     })
+  // }
+
+// function active() {
+//   $(".active").on(
+//     "click", (() => {
+//       const blackSourceX = $("#" + selectedPiece).attr("cx");
+//       const blackTargetX = $(this).attr("cx");
+//       if (
+//         selectedPiece === ("black1" || "black2" || "black3") &&
+//         blackSourceX === blackTargetX
+//       ) {
+//         lateralMoves++;
+//         // send updated lateralMoves to db
+//         if (lateralMoves >= 10) {
+//           // ADD later: white wins, push to database, update "to move" div with the news
+//           return;
+//         }
+//         $(`#${selectedPiece}`).attr("cx", $(this).attr("cx"));
+//         $(`#${selectedPiece}`).attr("cy", $(this).attr("cy"));
+//         // ADD later: push move to move list in the db
+//         selectedPiece = [];
+//         $(".node").removeClass("active");
+//         if ($("#white").attr("cx") === $("#m1").attr("cx")) {
+//           // ADD later: white wins, push to database, update "to move" div with the news
+//           return;
+//         }
+//         if (
+//           $("#white").attr("cx") === $("#m5").attr("cx") &&
+//           $("#black1").attr("cx") === $("#m4").attr("cx") &&
+//           $("#black2").attr("cx") === $("#m4").attr("cx") &&
+//           $("#black3").attr("cx") === $("#m4").attr("cx")
+//         ) {
+//           // ADD later: black wins, push to database, update "to move" div with the news
+//           return;
+//         }
+//         if (whoseTurn === "black") {
+//           whoseTurn = "white";
+//           // ADD: Push new turn indicator to the db
+//         } else if (whoseTurn === "white") {
+//           whoseTurn = "black";
+//           // ADD: Push new turn indicator to the db
+//         }
+//       }
+//     })
+//   )}
+})
+              </script>
+              
+</body>
+</html>
